@@ -1,5 +1,7 @@
 # A Governed Pass: One Prompt, Five Days, and an Agent That Refused to Certify Itself
 
+*From the author:* I built this over months of failed attempts with AI agents. Every rule in the specification below exists because its absence broke something. I loaded the prompt into an agent on a Sunday; it worked alone for four and a half days and ended by correctly refusing to certify its own work. The write-up is an independent audit by a different model — the specification is mine, verbatim. The next pass gets published whether it works or not.
+
 **A working protocol for multi-day autonomous AI research, with the exact specification that produced it and six empirical integrity findings.**
 
 **Status:** Pass 2 (R2) is complete. It terminated after **4 days 8 hours 53 minutes** of continuous autonomous work with the disposition **`METHOD_NEEDS_REPAIR`** — the specification's designated honest-failure outcome — after its own adversarial review round blocked method freeze with 3 HIGH and 4 MEDIUM findings. No scientific result was run or claimed. Pass 3 is planned; its disposition and runtime will be appended to [UPDATES.md](UPDATES.md) regardless of direction.
