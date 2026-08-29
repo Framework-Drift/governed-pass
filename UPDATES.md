@@ -13,6 +13,7 @@ Append-only record of pass dispositions, runtimes, and evidence identities. Newe
 - Terminal behavior: designated unhappy disposition returned; freeze verifier left exiting `1` (`R2 method freeze is absent`); unavailable cross-family review lane recorded as a hashed `unavailable` artifact with $0.00 spent
 - Cross-family hostile-review cost for the whole pass: $6.25 (eight pinned-model calls, hash-bound manifests)
 - No scientific execution; no scientific disposition exists
+- - Stack: prompt written with ChatGPT Classic 5.6 Sol (extra high reasoning); run executed by ChatGPT work 5.6 Sol (extra high, $100 pro plan, no custom harness); hostile reviews and post-hoc audit by Claude (claude-opus-4-6, pinned) over the Anthropic API
 
 ## Planned — Pass 3 (R3)
 
