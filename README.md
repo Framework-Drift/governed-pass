@@ -86,3 +86,8 @@ Subsequent passes append to [UPDATES.md](UPDATES.md): disposition, runtime, find
 ---
 
 *Prepared from a post-hoc audit of the full repository history, review records, and qualification evidence by a model from a different family than the one that executed the run. The initiating prompt is reproduced unmodified in [ORIGINAL_PROMPT.verbatim.md](ORIGINAL_PROMPT.verbatim.md). Documentation licensed under CC BY 4.0 — see [LICENSE.md](LICENSE.md).*
+
+
+## Stack
+
+The prompt was written with ChatGPT Classic 5.6 Sol (extra high reasoning). The run itself was ChatGPT work 5.6 Sol (extra high) on the $100 pro plan, with no custom harness. The cross-model hostile reviews were Claude (claude-opus-4-6, pinned identity) over the Anthropic API. The post-hoc audit was also Claude.
