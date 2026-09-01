@@ -4,7 +4,7 @@
 
 **A working protocol for multi-day autonomous AI research, with the exact specification that produced it and six empirical integrity findings.**
 
-**Status:** Pass 2 (R2) is complete. It terminated after **4 days 8 hours 53 minutes** of continuous autonomous work with the disposition **`METHOD_NEEDS_REPAIR`** — the specification's designated honest-failure outcome — after its own adversarial review round blocked method freeze with 3 HIGH and 4 MEDIUM findings. No scientific result was run or claimed. Pass 3 is planned; its disposition and runtime will be appended to [UPDATES.md](UPDATES.md) regardless of direction.
+**Status:** three passes complete. Pass 2 (R2) terminated after **4 days 8 hours 53 minutes** of continuous autonomous work in **`METHOD_NEEDS_REPAIR`**, the specification's designated honest-failure outcome. Pass 3 (R3) repaired all seven blocking findings and ended in a durable, independently verified method freeze: **`METHOD_READY_FOR_SCIENTIFIC_EXECUTION`**. The sealed scientific run remains a separately authorized future pass. Full identities, runtimes, and dispositions are in [UPDATES.md](UPDATES.md), appended regardless of direction.
 
 **Evidence repository:** currently private. Commit hashes, artifact SHA-256s, and file paths are cited throughout so the mechanics are concrete now and independently checkable later: the evidence repository will be opened when the experiment's method freeze binds pinned model identities, closing the contamination window that early publication would create for the sealed scientific run. Publishing the hashes before the repository opens is deliberate — when it opens, readers can verify nothing was retrofitted in the interim.
 
@@ -72,6 +72,8 @@ Each was caught in a real codebase by the protocol's own machinery, and each gen
 ## Using this
 
 Take [TEMPLATE_GOVERNED_PASS.md](TEMPLATE_GOVERNED_PASS.md) — the specification's skeleton with domain content bracketed — and keep the structure: verification-first entry, immutable history, canonical hash-locked authority, phase gates, closed dispositions, heterogeneous hostile review, commit-bound evidence, failure preservation, durability. Replace the domain content. Expect your first pass to surface which clauses your domain is missing; record those failures, and your second specification will be the one that holds.
+
+The method's governance semantics are also captured as a standalone, domain-neutral specification in [STANDING_PROTOCOL.md](STANDING_PROTOCOL.md): artifact classes, hash-binding rules, revocation semantics, the closed disposition grammar, gate construction, independence requirements, and a minimal conformance checklist for implementations.
 
 A candid note on provenance: the initiating specification was not designed in one sitting. Nearly every clause distills a specific recorded failure from months of prior human–agent engineering under a similar governance regime. The template transfers the *classes* of those lessons cheaply; knowing which clauses your domain needs, and at what strictness, remains judgment the template cannot supply.
 
