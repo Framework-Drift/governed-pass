@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/tmp/gp-sn13/examples/sorting-network-13/search/search_pass1.py", line 168, in <module>
+    if __name__=='__main__': main()
+                             ~~~~^^
+  File "/tmp/gp-sn13/examples/sorting-network-13/search/search_pass1.py", line 91, in main
+    checkpoint(best_net,best_sc,best_stage,evaluations,start)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/gp-sn13/examples/sorting-network-13/search/search_pass1.py", line 52, in checkpoint
+    (OUTDIR/'best-candidate.json').write_bytes(data)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.13/pathlib/_abc.py", line 641, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+  File "/usr/lib/python3.13/pathlib/_local.py", line 539, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/gp-sn13/examples/sorting-network-13/search/run-pass1/best-candidate.json'
