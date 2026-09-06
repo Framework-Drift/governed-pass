@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import hashlib, json, math, random, time
+import hashlib, json, random, time
 from pathlib import Path
 
 WORKFLOW_ID='GP-SN13-44-V1'
@@ -12,13 +12,10 @@ WALL_LIMIT=300.0
 CHANNELS=13
 TARGET=44
 PAIRS=[(i,j) for i in range(CHANNELS) for j in range(i+1,CHANNELS)]
-BASELINE=[(0,12),(1,10),(2,9),(3,7),(5,11),(6,8),(1,6),(2,3),(4,11),(7,9),(8,10),(0,4),(1,2),(3,6),(7,8),(9,10),(11,12),(4,6),(5,9),(8,11),(10,12),(0,5),(3,8),(4,7),(6,11),(9,10),(0,1),(2,5),(6,9),(7,8),(10,11),(0,1),(2,5)]
-# The line above is never used as authority; baseline is reloaded below from the frozen fixture.
 ROOT=Path(__file__).resolve().parents[1]
 BASELINE_PATH=ROOT/'fixtures'/'baseline45.json'
 OUTDIR=ROOT/'search'/'run-pass1'
 
-# 8192-bit truth sets for each channel.
 INPUTS=1<<CHANNELS
 FULL=(1<<INPUTS)-1
 INITIAL=[]
@@ -71,9 +68,8 @@ def mutate(net,rng,count=1):
     positions=rng.sample(range(TARGET),count)
     for p in positions:
         old=out[p]
-        choices=PAIRS
         while True:
-            c=choices[rng.randrange(len(choices))]
+            c=PAIRS[rng.randrange(len(PAIRS))]
             if c!=old: break
         out[p]=c
     return out
@@ -97,7 +93,6 @@ def main():
 
     found=(best_sc==(0,0))
 
-    # Exhaust the Hamming-1 comparator-replacement neighborhood of every deletion seed.
     if not found:
         for seed_sc,seed_net,k in sorted(deletion_seeds,key=lambda t:t[0]):
             for pos in range(TARGET):
@@ -114,7 +109,6 @@ def main():
                 if found or time.monotonic()>=deadline: break
             if found or time.monotonic()>=deadline: break
 
-    # Seeded beam + perturbation search. Score is search-only and grants no authority.
     if not found and time.monotonic()<deadline:
         ranked=sorted(deletion_seeds,key=lambda t:t[0])
         population=[list(x[1]) for x in ranked[:24]]
@@ -123,10 +117,8 @@ def main():
         while time.monotonic()<deadline and not found:
             generation += 1
             pool=[]
-            # retain elites
             for sc,net in sorted(zip(pop_scores,population),key=lambda z:z[0])[:8]:
                 pool.append((sc,list(net)))
-            # produce deterministic seeded children with 1-4 replacements
             while len(pool)<160 and time.monotonic()<deadline:
                 parent=population[rng.randrange(len(population))]
                 r=rng.random()
@@ -139,7 +131,6 @@ def main():
                     checkpoint(best_net,best_sc,best_stage,evaluations,start)
                 if sc==(0,0): found=True; break
             if found: break
-            # dedupe exact networks and retain score-diverse beam
             uniq={}
             for sc,net in pool:
                 key=tuple(net)
@@ -147,7 +138,6 @@ def main():
             ranked_pool=sorted(((sc,list(key)) for key,sc in uniq.items()),key=lambda z:z[0])
             population=[net for sc,net in ranked_pool[:48]]
             pop_scores=[sc for sc,net in ranked_pool[:48]]
-            # periodic basin escape from current best and top deletion seeds
             if generation%20==0 and population:
                 for _ in range(min(8,len(population))):
                     base=list(best_net if rng.random()<0.7 else ranked[rng.randrange(min(12,len(ranked)))][1])
