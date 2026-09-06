@@ -117,12 +117,9 @@ def main():
       'best_candidate_sha256':sha(best_bytes),'best_comparator_count':len(best_net),'best_score_bad_inputs':best_sc[0],
       'best_score_adjacent_inversions':best_sc[1],'best_stage':best_stage,
       'search_disposition':('CANDIDATE_REQUIRES_GOVERNED_VERIFICATION' if found else 'LOCAL_NEIGHBORHOOD_EXHAUSTED' if complete else 'SEARCH_BUDGET_EXHAUSTED_WITHOUT_RESOLUTION'),
+      'budget_compliance':'TO_BE_DETERMINED_BY_POST_EXIT_EXECUTION_RECORD',
       'authority_note':'Local-neighborhood exhaustion is not global nonexistence evidence. Internal score grants no witness standing.'
     }
-    write_json(OUTDIR/'search-result.json',result)
-    total=time.monotonic()-start
-    result['total_elapsed_seconds']=total
-    result['budget_compliant_total_elapsed']=bool(total<=WALL_LIMIT)
     write_json(OUTDIR/'search-result.json',result)
     print(json.dumps(result,sort_keys=True,separators=(',',':')))
 
