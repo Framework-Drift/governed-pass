@@ -90,9 +90,21 @@ assert len(range(8191)) != 8192 or cov_digest(range(8191)) != expected
 bad=list(range(8192)); bad[-1]=bad[-2]
 assert len(bad)==8192 and cov_digest(bad)!=expected
 
-mut0=[tuple(x) for x in baseline[1:]]
-assert A.verify_sort(mut0)[0] is False
-assert run_b(canon([list(x) for x in mut0]))['local_sort_pass'] is False
+def faulty_state_carry(network):
+    state=[0]*13
+    for x in range(1<<13):
+        incoming=[(x>>i)&1 for i in range(13)]
+        for i,b in enumerate(incoming):
+            if b: state[i]=1
+        for i,j in network:
+            if state[i]>state[j]: state[i],state[j]=state[j],state[i]
+        if any(state[k]>state[k+1] for k in range(12)): return False
+    return True
+state_fault_fixture=[tuple(x) for x in (baseline[:1]+baseline[2:])]
+assert A.verify_sort(state_fault_fixture)[0] is False
+assert faulty_state_carry(state_fault_fixture) is True
+assert run_b(canon([list(x) for x in state_fault_fixture]))['local_sort_pass'] is False
+
 assert a(negative_raw['boolean_index'])['parse_pass'] is False
 assert run_b(negative_raw['boolean_index'])['parse_pass'] is False
 original=canon(baseline[1:]); mutated=canon(baseline[2:])
@@ -103,5 +115,5 @@ assert run_b(mutated)['candidate_sha256']==sha(mutated)
 out={'schema_version':'gp-sn13-verifier-qualification.transcript.v1','authority_sha256':AUTH,'authority_freeze_sha256':FREEZE,
 'runtime':{'python':subprocess.run(['python','--version'],capture_output=True,text=True).stdout.strip() or subprocess.run(['python','--version'],capture_output=True,text=True).stderr.strip(),'node':subprocess.run(['node','--version'],capture_output=True,text=True,check=True).stdout.strip()},
 'baseline':{'candidate_sha256':sha(baseline_bytes),'a':a(baseline_bytes),'b':run_b(baseline_bytes)},'deletion_mutants':deletions,'parser_negatives':parser_results,
-'differential_faults':{'reversed_minmax':'DETECTED','channel_remap_off_by_one':'DETECTED','skip_comparator':'45_OF_45_DETECTED','omitted_input_coverage':'DETECTED_BY_COVERAGE_GUARD','duplicate_omit_coverage':'DETECTED_BY_COVERAGE_DIGEST','cross_input_state_carry':'INDEPENDENT_VERIFIER_REMAINS_REJECTING_ON_FAULT_FIXTURE','boolean_as_integer':'REJECTED_BY_BOTH_PARSERS','candidate_mutation_after_hash':'DETECTED_BY_CONSUMED_BYTES_HASH'},'result':'PASS'}
+'differential_faults':{'reversed_minmax':'DETECTED','channel_remap_off_by_one':'DETECTED','skip_comparator':'45_OF_45_DETECTED','omitted_input_coverage':'DETECTED_BY_COVERAGE_GUARD','duplicate_omit_coverage':'DETECTED_BY_COVERAGE_DIGEST','cross_input_state_carry':'FAULTY_PATH_FALSE_PASS_DETECTED_BY_INDEPENDENT_VERIFIER','boolean_as_integer':'REJECTED_BY_BOTH_PARSERS','candidate_mutation_after_hash':'DETECTED_BY_CONSUMED_BYTES_HASH'},'result':'PASS'}
 print(json.dumps(out,sort_keys=True,separators=(',',':')))
